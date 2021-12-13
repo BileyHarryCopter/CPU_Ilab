@@ -1,0 +1,8 @@
+push 3434
+push 45.22
+push 37855
+push 1.233
+push 12343
+pop
+sqrt
+hlt
