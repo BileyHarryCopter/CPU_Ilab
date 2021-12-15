@@ -1,0 +1,4 @@
+push 12
+pop
+push 23
+hlt

@@ -1,0 +1,6 @@
++|=================FAILED==================|+
+
+ERROR:           FILE ERROR
+FILE "Taxt.txt" can't be detected in source
+
++|==============CORRECT_FILE==============|+
