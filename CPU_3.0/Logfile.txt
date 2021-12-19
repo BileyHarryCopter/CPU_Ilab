@@ -1,0 +1,8 @@
+STATUS of the Stack:     good
+Logfile is opened successfully
+////////////////////////////////
+
+STACK finished the work successfully
+Logfile is closed successfully
+////////////////////////////////////
+
