@@ -1,0 +1,6 @@
+push -4.0
+sqrt
+out
+push 1.23
+out
+hlt

@@ -1,12 +1,16 @@
 #include "stack.h"
 
 //===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*//
-                     //    Turn on the asserts    //
+                      //    Turn on the asserts    //
 //===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*//
 void Assert (int expresion, FILE * file, const unsigned int line,
             const char * function, const int numb_er, const char * name_er)
 {
-  //pointers on function, name_er, file --- is it impossible, that they would be Null??? :|
+    //pointers on function, name_er, file --- is it impossible, that they would be Null??? :|
+    if (numb_er == ER_POP_SIZENULL)
+        Error_Mass[0] = 1;
+    printf ("%d\n", Error_Mass[0]);
+
     if (expresion == FALSE)
     {
         fseek (file, 0L, SEEK_SET);
@@ -38,10 +42,6 @@ void LogClose (Stack * stk)
     MyAss(Logfile != NULL, Logfile, __LINE__, __PRETTY_FUNCTION__,
           NULL_PTR_FILE, PR_NULL_PTR_FILE, stk);
 
-    printf ("STACK finished the work. Check the Logfile \n"
-            "//////////////////////////////////////////\n\n");
-    //fseek (Logfile, 0L, SEEK_SET);
-
     fprintf (Logfile, "STACK finished the work successfully\n"
                       "Logfile is closed successfully\n"
                       "////////////////////////////////////\n\n");
@@ -50,7 +50,7 @@ void LogClose (Stack * stk)
 }
 //===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*//
                           // Hash calculating
-                         // Now it is very simple
+                         // It is very simple
 //===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*//
 unsigned long HashCalc (Stack * stk)
 {
@@ -163,7 +163,7 @@ data_t StackPop (Stack * stk)
 {
     MyAss((stk -> size) != 0, Logfile, __LINE__,
           __PRETTY_FUNCTION__, ER_POP_SIZENULL, PR_ER_POP_SIZENULL, stk);
-    StackCheck (stk, ER_POP_SIZENULL);
+    //    StackCheck (stk, ER_POP_SIZENULL);
 
     data_t value = * (stk -> data + stk -> size - 1);
     * (stk -> data + stk -> size - 1) = 0;
