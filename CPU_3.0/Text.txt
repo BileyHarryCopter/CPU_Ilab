@@ -1,9 +1,4 @@
-push -5
-push 10
-div
-out
-push 2.344
-out
 push 5
-out
+POP
+pop
 hlt

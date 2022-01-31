@@ -11,7 +11,6 @@ FILE * File_opening (const char * name_txt, const char * mode)
     char * problem = 0;
     FILE * cmd_txt;
     cmd_txt = fopen (name_txt, mode);
-    assert (cmd_txt != 0);
     Assemb_check (cmd_txt != 0, name_txt, 0, problem,
                   problem, FILE_ERROR);
     return cmd_txt;
@@ -48,12 +47,15 @@ void Fill_buff (char ** buff, unsigned int size, FILE * cmd_txt)
     *(*buff + size) = '\0';
 }
 //===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*//
+    //  Функция производит чтение текстового файла
+    //  и запись его содержимого в буффер
 //===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*//
 unsigned int Readout_buff (const char * name_txt, char ** buff)
 {
-    FILE * cmd_txt;
+    FILE * cmd_txt = NULL;
 
     cmd_txt = File_opening (name_txt, "r");
+    assert (cmd_txt != NULL);
 
     unsigned int sizebuff = Size_file (cmd_txt);
 
@@ -121,10 +123,12 @@ double Read_arg (char * buff, unsigned int * ipbuff)
         length++;
         (*ipbuff)++;
     }
+
     if (sscanf ((buff + *ipbuff - length), "%lf\n", &arg) == 0)
     {
         return NAN;
     }
+    
     return arg;
 }
 //===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*//
@@ -167,7 +171,7 @@ bool Regist_detect (char * buff, unsigned * ipbuff, char * databin, unsigned * i
     return status;
 }
 //===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*//
-  //    brake the face of the func
+    //    brake the face of the func
 //===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*//
 int Find_cmd (char * buff, unsigned int * ipbuff,
                char * databin, unsigned int * ipbin, unsigned int line)
@@ -278,11 +282,13 @@ int Find_cmd (char * buff, unsigned int * ipbuff,
     }
 }
 //===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*//
+    //  функция нужна для пробега по буфферу с нахождением команд, аргументов
+    //  и записью этой инфы в массив code
 //===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*//
 char * Fill_bin (char * buff, unsigned int sizebin)
 {
     bool status = true;
-    char * stroka = 0;
+    char *stroka = 0;
     unsigned int ipbuff = 0;
     unsigned int ipbin = 0;
     unsigned int line = 1;
@@ -295,7 +301,7 @@ char * Fill_bin (char * buff, unsigned int sizebin)
         Gapspass (buff, &ipbuff);
         if (Find_cmd (buff, &ipbuff, databin, &ipbin, line) == HLT)
         {
-            if (isalpha (*(buff + ipbuff) != 0))
+            if (isalpha (*(buff + ipbuff) != '\0'))
             {
                 stroka = buff + ipbuff - 2;
                 status = false;
@@ -321,6 +327,7 @@ char * Fill_bin (char * buff, unsigned int sizebin)
     return databin;
 }
 //===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*//
+    //  запись бинарника - как оригинально, да
 //===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*//
 void Record_bin (char * databin, size_t elem_s, unsigned int mass_s, FILE * bin)
 {
@@ -328,30 +335,32 @@ void Record_bin (char * databin, size_t elem_s, unsigned int mass_s, FILE * bin)
     assert (sizebin == mass_s);
 }
 //===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*//
-        //  нужна для пробега по буфферу и заполнению массива code
-        //  функция вызывается в процессоре
+        //  нужна для создания буффера ввода из текстового файла
+        //  и заполнению массива code по этому буфферу
 //===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*//
 char * Databin_ctor (const char * name_txt, const char * name_bin)
 {
-    char *buff = 0;
-    unsigned sizebuff;
+    char *buff = NULL;
+    unsigned int sizebuff = 0;
     sizebuff = Readout_buff (name_txt, &buff);
+
     assert (buff != NULL);
-
     char *databin = Fill_bin (buff, sizebuff);
+    assert (databin != NULL);
 
-    FILE *data;
+    FILE *data = NULL;
     data = File_opening (name_bin, "w");
     Record_bin (databin, sizeof (char), sizebuff, data);
-
     File_closing (&data);
+
     return databin;
 }
 //===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*//
+    //   перемещение позиции ошибки
 //===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*//
 char * Move_underline (char * stroka, char * command)
 {
-    char * move = 0;
+    char *move = 0;
     unsigned length = 0;
 
     for (length = 0; length < command - stroka; length++)
@@ -431,8 +440,9 @@ void Assemb_check (bool expression, const char * file, unsigned int line,
 //===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*//
 int main (void)
 {
-    char * databin = 0;
+    char * databin = NULL;
     Logfile = fopen ("Logfile.txt", "w");
     databin = Databin_ctor ("Text.txt", "Data.bin");
+    assert (databin != NULL);
     return 0;
 }

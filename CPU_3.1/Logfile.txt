@@ -1,6 +1,8 @@
-STATUS of the Stack:     good
-Logfile is opened successfully
-////////////////////////////////
+Assertion failed
+Problem on 165 line
+In the function     double StackPop(Stack *)
+Code of error:      12
+Name of error:      ER_POP_SIZENULL
 
 STACK finished the work successfully
 Logfile is closed successfully

@@ -1,6 +1,4 @@
-push -4.0
-sqrt
+push 2
 out
-push 1.23
-out
+pop
 hlt
