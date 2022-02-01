@@ -8,8 +8,8 @@
 //===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*//
 FILE * File_opening (const char * name_txt, const char * mode)
 {
-    char * problem = 0;
-    FILE * cmd_txt;
+    char *problem = 0;
+    FILE *cmd_txt = NULL;
     cmd_txt = fopen (name_txt, mode);
     Assemb_check (cmd_txt != 0, name_txt, 0, problem,
                   problem, FILE_ERROR);
@@ -128,7 +128,7 @@ double Read_arg (char * buff, unsigned int * ipbuff)
     {
         return NAN;
     }
-    
+
     return arg;
 }
 //===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*//
