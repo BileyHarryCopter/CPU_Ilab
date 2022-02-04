@@ -1,0 +1,19 @@
+DEF_CMD(0, HLT, 0)
+
+DEF_CMD(1, PUSH, 1)
+
+DEF_CMD(2, IN, 0)
+
+DEF_CMD(3, POP, 1)
+
+DEF_CMD(4, MUL, 0)
+
+DEF_CMD(5, SUP, 0)
+
+DEF_CMD(6, OUT, 0)
+
+DEF_CMD(7, ADD, 0)
+
+DEF_CMD(8, DIV, 0)
+
+DEF_CMD(9, SQRT, 0)
